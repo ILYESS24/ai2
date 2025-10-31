@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 const examples = [
-  { title: 'Basic Chat', link: '/chat', category: 'Core' },
+  { title: 'Basic Chat', link: '/use-chat-tools', category: 'Core' },
   { title: 'Completion', link: '/completion', category: 'Core' },
   { title: 'Completion RSC', link: '/completion-rsc', category: 'Core' },
   { title: 'Stream Object', link: '/stream-object', category: 'Core' },
@@ -58,13 +58,13 @@ const categories = Array.from(new Set(examples.map(e => e.category)));
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-8">
+    <main className="min-h-screen bg-[#0a0a0a] p-8">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-gray-900 mb-4">
+          <h1 className="text-5xl font-bold text-[#f5f5f0] mb-4">
             AI SDK Examples
           </h1>
-          <p className="text-xl text-gray-600">
+          <p className="text-xl text-[#e8e8e3]">
             Next.js OpenAI Integration Examples
           </p>
         </div>
@@ -73,8 +73,8 @@ export default function Home() {
           {categories.map(category => {
             const categoryExamples = examples.filter(e => e.category === category);
             return (
-              <div key={category} className="bg-white rounded-lg shadow-md p-6">
-                <h2 className="text-2xl font-semibold text-gray-800 mb-4 border-b pb-2">
+              <div key={category} className="bg-[#1a1a1a] rounded-lg shadow-lg border border-[#2a2a2a] p-6">
+                <h2 className="text-2xl font-semibold text-[#f5f5f0] mb-4 border-b border-[#3a3a3a] pb-2">
                   {category}
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -82,13 +82,13 @@ export default function Home() {
                     <Link
                       key={example.link}
                       href={example.link}
-                      className="block p-4 rounded-lg border border-gray-200 hover:border-blue-500 hover:bg-blue-50 transition-all duration-200 group"
+                      className="block p-4 rounded-lg border border-[#2a2a2a] hover:border-[#4a9eff] hover:bg-[#2a2a2a] transition-all duration-200 group"
                     >
                       <div className="flex items-center gap-3">
-                        <span className="text-gray-400 text-sm font-mono w-6">
+                        <span className="text-[#888] text-sm font-mono w-6">
                           {index + 1}.
                         </span>
-                        <span className="text-gray-700 group-hover:text-blue-600 font-medium">
+                        <span className="text-[#f5f5f0] group-hover:text-[#6bb0ff] font-medium">
                           {example.title}
                         </span>
                       </div>
@@ -100,7 +100,7 @@ export default function Home() {
           })}
         </div>
 
-        <div className="mt-12 text-center text-gray-500 text-sm">
+        <div className="mt-12 text-center text-[#888] text-sm">
           <p>Total: {examples.length} examples available</p>
         </div>
       </div>
