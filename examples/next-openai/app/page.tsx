@@ -171,10 +171,7 @@ export default function Home() {
       <div className="flex-1 flex flex-col relative overflow-hidden">
         {/* Animated Background Pattern */}
         <div className="absolute inset-0 opacity-[0.02] pointer-events-none">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.3) 1px, transparent 0)`,
-            backgroundSize: '40px 40px'
-          }}></div>
+          <div className="absolute inset-0 bg-pattern-dots"></div>
         </div>
 
         {/* Modern Top Bar */}
@@ -233,7 +230,6 @@ export default function Home() {
                   className={`flex gap-4 group animate-in fade-in slide-in-from-bottom-4 duration-500 ${
                     m.role === 'user' ? 'justify-end' : 'justify-start'
                   }`}
-                  style={{ animationDelay: `${idx * 50}ms` }}
                 >
                   {m.role === 'assistant' && (
                     <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#1e3a8a] to-[#1e40af] flex items-center justify-center flex-shrink-0 shadow-lg shadow-blue-500/20 hover:scale-110 transition-transform duration-200">
@@ -248,12 +244,12 @@ export default function Home() {
                     }`}
                   >
                     <div className="whitespace-pre-wrap break-words leading-relaxed">
-                      {m.parts.map(part => {
-                        if (part.type === 'text') {
-                          return part.text;
-                        }
-                      })}
-                    </div>
+          {m.parts.map(part => {
+            if (part.type === 'text') {
+              return part.text;
+            }
+          })}
+        </div>
                   </div>
                   {m.role === 'user' && (
                     <div className="w-10 h-10 rounded-2xl bg-[#1a1a1a] border border-[#2a2a2a] flex items-center justify-center flex-shrink-0 hover:scale-110 transition-transform duration-200">
@@ -265,7 +261,7 @@ export default function Home() {
             )}
 
             {/* Modern Loading Indicator */}
-            {(status === 'submitted' || status === 'streaming') && (
+      {(status === 'submitted' || status === 'streaming') && (
               <div className="flex gap-4 justify-start animate-in fade-in slide-in-from-bottom-4">
                 <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#1e3a8a] to-[#1e40af] flex items-center justify-center flex-shrink-0 shadow-lg shadow-blue-500/20">
                   <span className="text-sm font-bold">AI</span>
@@ -277,26 +273,26 @@ export default function Home() {
                     <span className="w-2.5 h-2.5 bg-[#f472b6] rounded-full animate-bounce [animation-delay:300ms]"></span>
                   </div>
                 </div>
-              </div>
-            )}
+        </div>
+      )}
 
             {/* Enhanced Error Message */}
-            {error && (
+      {error && (
               <div className="flex gap-4 justify-start animate-in fade-in slide-in-from-bottom-4">
                 <div className="w-10 h-10 rounded-2xl bg-red-900/50 border border-red-500/30 flex items-center justify-center flex-shrink-0">
                   <span className="text-sm font-bold">!</span>
                 </div>
                 <div className="bg-red-900/20 border border-red-500/30 rounded-3xl px-5 py-4 glass">
                   <div className="text-red-400 mb-2 font-medium">An error occurred</div>
-                  <button
-                    onClick={() => regenerate()}
+          <button
+            onClick={() => regenerate()}
                     className="text-sm text-red-400 hover:text-red-300 underline font-medium transition-colors"
-                  >
-                    Retry
-                  </button>
+          >
+            Retry
+          </button>
                 </div>
-              </div>
-            )}
+        </div>
+      )}
           </div>
         </div>
 

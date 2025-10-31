@@ -77,13 +77,13 @@ export default function ChatInput({
       
       <div className="mt-2 flex items-center justify-center gap-4 text-xs text-[#666]">
         <span className="flex items-center gap-1">
-          <kbd className="px-2 py-1 bg-[#1a1a1a]/50 border border-[#2a2a2a]/50 rounded">Enter</kbd>
+          <kbd className="px-2 py-1 bg-[#1a1a1a]/50 border border-[#2a2a2a]/50 rounded" aria-label="Enter key">Enter</kbd>
           <span>to send</span>
         </span>
         <span className="flex items-center gap-1">
-          <kbd className="px-2 py-1 bg-[#1a1a1a]/50 border border-[#2a2a2a]/50 rounded">Shift</kbd>
+          <kbd className="px-2 py-1 bg-[#1a1a1a]/50 border border-[#2a2a2a]/50 rounded" aria-label="Shift key">Shift</kbd>
           <span>+</span>
-          <kbd className="px-2 py-1 bg-[#1a1a1a]/50 border border-[#2a2a2a]/50 rounded">Enter</kbd>
+          <kbd className="px-2 py-1 bg-[#1a1a1a]/50 border border-[#2a2a2a]/50 rounded" aria-label="Enter key">Enter</kbd>
           <span>for new line</span>
         </span>
       </div>
