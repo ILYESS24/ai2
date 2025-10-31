@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import Link from 'next/link';
 
 const examples = [
@@ -57,53 +60,138 @@ const examples = [
 const categories = Array.from(new Set(examples.map(e => e.category)));
 
 export default function Home() {
+  const [showSidebar, setShowSidebar] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+
   return (
-    <main className="min-h-screen bg-[#0a0a0a] p-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-[#f5f5f0] mb-4">
-            AI SDK Examples
-          </h1>
-          <p className="text-xl text-[#e8e8e3]">
-            Next.js OpenAI Integration Examples
-          </p>
-        </div>
+    <div className="flex h-screen bg-[#0a0a0a] text-[#f5f5f0] overflow-hidden">
+      {/* Sidebar */}
+      {showSidebar && (
+        <div className="w-64 bg-[#0f0f0f] border-r border-[#1a1a1a] flex flex-col">
+          {/* Header */}
+          <div className="p-4 border-b border-[#1a1a1a]">
+            <h1 className="text-xl font-bold text-[#f5f5f0] mb-1">AI SDK</h1>
+            <p className="text-xs text-[#888]">Examples Gallery</p>
+          </div>
 
-        <div className="space-y-8">
-          {categories.map(category => {
-            const categoryExamples = examples.filter(e => e.category === category);
-            return (
-              <div key={category} className="bg-[#1a1a1a] rounded-lg shadow-lg border border-[#2a2a2a] p-6">
-                <h2 className="text-2xl font-semibold text-[#f5f5f0] mb-4 border-b border-[#3a3a3a] pb-2">
+          {/* Search/Filter */}
+          <div className="p-4 border-b border-[#1a1a1a]">
+            <input
+              type="text"
+              placeholder="Search examples..."
+              className="w-full px-3 py-2 bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg text-[#f5f5f0] placeholder:text-[#666] focus:outline-none focus:border-[#4a9eff] text-sm"
+            />
+          </div>
+
+          {/* Categories */}
+          <div className="flex-1 overflow-y-auto">
+            <div className="p-2">
+              <button
+                onClick={() => setSelectedCategory(null)}
+                className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors mb-1 ${
+                  selectedCategory === null
+                    ? 'bg-[#1a1a1a] text-[#f5f5f0]'
+                    : 'text-[#888] hover:bg-[#151515]'
+                }`}
+              >
+                All Examples
+              </button>
+            </div>
+            {categories.map(category => (
+              <div key={category} className="mb-2">
+                <button
+                  onClick={() => setSelectedCategory(category === selectedCategory ? null : category)}
+                  className={`w-full text-left px-3 py-2 text-xs font-semibold text-[#aaa] uppercase tracking-wider ${
+                    selectedCategory === category ? 'text-[#6bb0ff]' : ''
+                  }`}
+                >
                   {category}
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                  {categoryExamples.map((example, index) => (
-                    <Link
-                      key={example.link}
-                      href={example.link}
-                      className="block p-4 rounded-lg border border-[#2a2a2a] hover:border-[#4a9eff] hover:bg-[#2a2a2a] transition-all duration-200 group"
-                    >
-                      <div className="flex items-center gap-3">
-                        <span className="text-[#888] text-sm font-mono w-6">
-                          {index + 1}.
-                        </span>
-                        <span className="text-[#f5f5f0] group-hover:text-[#6bb0ff] font-medium">
+                </button>
+                {(selectedCategory === null || selectedCategory === category) && (
+                  <div className="px-2">
+                    {examples
+                      .filter(e => e.category === category)
+                      .map(example => (
+                        <Link
+                          key={example.link}
+                          href={example.link}
+                          className="block px-3 py-1.5 rounded text-sm text-[#ccc] hover:bg-[#1a1a1a] hover:text-[#f5f5f0] transition-colors"
+                        >
                           {example.title}
-                        </span>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
+                        </Link>
+                      ))}
+                  </div>
+                )}
               </div>
-            );
-          })}
+            ))}
+          </div>
+
+          {/* Footer */}
+          <div className="p-4 border-t border-[#1a1a1a] text-xs text-[#666]">
+            <p>{examples.length} examples</p>
+          </div>
+        </div>
+      )}
+
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col">
+        {/* Top Bar */}
+        <div className="h-16 bg-[#0f0f0f] border-b border-[#1a1a1a] flex items-center justify-between px-4">
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setShowSidebar(!showSidebar)}
+              className="p-2 hover:bg-[#1a1a1a] rounded-lg transition-colors"
+              aria-label="Toggle sidebar"
+              title="Toggle sidebar"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+            <h2 className="text-lg font-semibold text-[#f5f5f0]">AI SDK Examples</h2>
+          </div>
+          <div className="text-sm text-[#888]">Next.js OpenAI Integration</div>
         </div>
 
-        <div className="mt-12 text-center text-[#888] text-sm">
-          <p>Total: {examples.length} examples available</p>
+        {/* Content Area */}
+        <div className="flex-1 overflow-y-auto p-8">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-12">
+              <h1 className="text-4xl font-bold text-[#f5f5f0] mb-3">
+                AI SDK Examples
+              </h1>
+              <p className="text-lg text-[#888]">
+                Explore {examples.length} examples of AI integrations
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {(selectedCategory === null
+                ? examples
+                : examples.filter(e => e.category === selectedCategory)
+              ).map((example, index) => (
+                <Link
+                  key={example.link}
+                  href={example.link}
+                  className="block p-5 bg-[#0f0f0f] border border-[#1a1a1a] rounded-lg hover:border-[#4a9eff] hover:bg-[#151515] transition-all duration-200 group"
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-[#1a1a1a] flex items-center justify-center text-xs font-mono text-[#666] group-hover:bg-[#1e3a8a] group-hover:text-[#f5f5f0] transition-colors">
+                      {index + 1}
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-[#f5f5f0] group-hover:text-[#6bb0ff] transition-colors mb-1">
+                        {example.title}
+                      </h3>
+                      <p className="text-xs text-[#666] uppercase">{example.category}</p>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
-    </main>
+    </div>
   );
 }
