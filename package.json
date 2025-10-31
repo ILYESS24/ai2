@@ -18,6 +18,8 @@
     "publint": "turbo publint",
     "test": "turbo test --concurrency 16 --filter=!@example/*",
     "test:update": "turbo test:update --concurrency 16 --filter=!@example/*",
+    "test:e2e": "playwright test --config=tests/e2e/playwright.config.examples.js",
+    "test:e2e:ui": "playwright test --config=tests/e2e/playwright.config.examples.js --ui",
     "ci:release": "turbo clean && turbo build && changeset publish",
     "ci:version": "changeset version && node .github/scripts/cleanup-examples-changesets.mjs && pnpm install --no-frozen-lockfile",
     "clean-examples": "node .github/scripts/cleanup-examples-changesets.mjs && pnpm install --no-frozen-lockfile"
