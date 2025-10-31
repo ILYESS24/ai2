@@ -1,51 +1,109 @@
-'use client';
+import Link from 'next/link';
 
-import { useChat } from '@ai-sdk/react';
-import ChatInput from '@/components/chat-input';
+const examples = [
+  { title: 'Basic Chat', link: '/chat', category: 'Core' },
+  { title: 'Completion', link: '/completion', category: 'Core' },
+  { title: 'Completion RSC', link: '/completion-rsc', category: 'Core' },
+  { title: 'Stream Object', link: '/stream-object', category: 'Core' },
+  { title: 'Stream UI', link: '/stream-ui', category: 'Core' },
+  { title: 'Generate Image', link: '/generate-image', category: 'Core' },
+  
+  { title: 'Chat with Tools', link: '/use-chat-tools', category: 'Features' },
+  { title: 'Chat with Attachments', link: '/use-chat-attachments', category: 'Features' },
+  { title: 'Chat with Sources', link: '/use-chat-sources', category: 'Features' },
+  { title: 'Chat with Custom Sources', link: '/use-chat-custom-sources', category: 'Features' },
+  { title: 'Chat with Data UI Parts', link: '/use-chat-data-ui-parts', category: 'Features' },
+  { title: 'Chat with Image Output', link: '/use-chat-image-output', category: 'Features' },
+  { title: 'Chat with Persistence', link: '/use-chat-persistence', category: 'Features' },
+  { title: 'Chat with Resume', link: '/use-chat-resume', category: 'Features' },
+  { title: 'Chat with Shared Context', link: '/use-chat-shared-context', category: 'Features' },
+  { title: 'Chat with Throttle', link: '/use-chat-throttle', category: 'Features' },
+  { title: 'Chat Human in the Loop', link: '/use-chat-human-in-the-loop', category: 'Features' },
+  { title: 'Chat with Reasoning', link: '/use-chat-reasoning', category: 'Features' },
+  
+  { title: 'OpenAI Test', link: '/test-openai-responses', category: 'Providers' },
+  { title: 'OpenAI Web Search', link: '/chat-openai-web-search', category: 'Providers' },
+  { title: 'OpenAI Code Interpreter', link: '/test-openai-code-interpreter', category: 'Providers' },
+  { title: 'OpenAI File Search', link: '/test-openai-file-search', category: 'Providers' },
+  { title: 'OpenAI Image Generation', link: '/test-openai-image-generation', category: 'Providers' },
+  { title: 'OpenAI Local Shell', link: '/test-openai-local-shell', category: 'Providers' },
+  
+  { title: 'Anthropic Code Execution', link: '/chat-anthropic-code-execution', category: 'Providers' },
+  { title: 'Anthropic Web Search', link: '/chat-anthropic-web-search', category: 'Providers' },
+  { title: 'Anthropic Web Fetch', link: '/chat-anthropic-web-fetch', category: 'Providers' },
+  { title: 'Anthropic MCP', link: '/chat-anthropic-mcp', category: 'Providers' },
+  
+  { title: 'Google Test', link: '/test-google', category: 'Providers' },
+  { title: 'Cohere Test', link: '/test-cohere', category: 'Providers' },
+  { title: 'Groq Test', link: '/test-groq', category: 'Providers' },
+  { title: 'Mistral Test', link: '/test-mistral', category: 'Providers' },
+  { title: 'Perplexity Test', link: '/test-perplexity', category: 'Providers' },
+  { title: 'XAI Test', link: '/test-xai', category: 'Providers' },
+  { title: 'Amazon Bedrock', link: '/bedrock', category: 'Providers' },
+  
+  { title: 'MCP Chat', link: '/mcp', category: 'Advanced' },
+  { title: 'MCP with Auth', link: '/mcp-with-auth', category: 'Advanced' },
+  { title: 'MCP Zapier', link: '/mcp-zapier', category: 'Advanced' },
+  { title: 'Dynamic Tools', link: '/dynamic-tools', category: 'Advanced' },
+  { title: 'Tool Approval', link: '/test-tool-approval', category: 'Advanced' },
+  { title: 'Tool Approval Dynamic', link: '/test-tool-approval-dynamic', category: 'Advanced' },
+  { title: 'Weather Valibot Tool', link: '/test-weather-valibot', category: 'Advanced' },
+  
+  { title: 'Use Object', link: '/use-object', category: 'Objects' },
+  { title: 'Use Object Expense Tracker', link: '/use-object-expense-tracker', category: 'Objects' },
+  { title: 'Use Object Valibot', link: '/use-object-valibot', category: 'Objects' },
+];
 
-export default function Chat() {
-  const { error, status, sendMessage, messages, regenerate, stop } = useChat();
+const categories = Array.from(new Set(examples.map(e => e.category)));
 
+export default function Home() {
   return (
-    <div className="flex flex-col w-full max-w-md py-24 mx-auto stretch">
-      {messages.map(m => (
-        <div key={m.id} className="whitespace-pre-wrap">
-          {m.role === 'user' ? 'User: ' : 'AI: '}
-          {m.parts.map(part => {
-            if (part.type === 'text') {
-              return part.text;
-            }
+    <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-12">
+          <h1 className="text-5xl font-bold text-gray-900 mb-4">
+            AI SDK Examples
+          </h1>
+          <p className="text-xl text-gray-600">
+            Next.js OpenAI Integration Examples
+          </p>
+        </div>
+
+        <div className="space-y-8">
+          {categories.map(category => {
+            const categoryExamples = examples.filter(e => e.category === category);
+            return (
+              <div key={category} className="bg-white rounded-lg shadow-md p-6">
+                <h2 className="text-2xl font-semibold text-gray-800 mb-4 border-b pb-2">
+                  {category}
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {categoryExamples.map((example, index) => (
+                    <Link
+                      key={example.link}
+                      href={example.link}
+                      className="block p-4 rounded-lg border border-gray-200 hover:border-blue-500 hover:bg-blue-50 transition-all duration-200 group"
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="text-gray-400 text-sm font-mono w-6">
+                          {index + 1}.
+                        </span>
+                        <span className="text-gray-700 group-hover:text-blue-600 font-medium">
+                          {example.title}
+                        </span>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            );
           })}
         </div>
-      ))}
 
-      {(status === 'submitted' || status === 'streaming') && (
-        <div className="mt-4 text-gray-500">
-          {status === 'submitted' && <div>Loading...</div>}
-          <button
-            type="button"
-            className="px-4 py-2 mt-4 text-blue-500 border border-blue-500 rounded-md"
-            onClick={stop}
-          >
-            Stop
-          </button>
+        <div className="mt-12 text-center text-gray-500 text-sm">
+          <p>Total: {examples.length} examples available</p>
         </div>
-      )}
-
-      {error && (
-        <div className="mt-4">
-          <div className="text-red-500">An error occurred.</div>
-          <button
-            type="button"
-            className="px-4 py-2 mt-4 text-blue-500 border border-blue-500 rounded-md"
-            onClick={() => regenerate()}
-          >
-            Retry
-          </button>
-        </div>
-      )}
-
-      <ChatInput status={status} onSubmit={text => sendMessage({ text })} />
-    </div>
+      </div>
+    </main>
   );
 }
