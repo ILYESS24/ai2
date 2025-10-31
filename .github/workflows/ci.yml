@@ -171,8 +171,8 @@ jobs:
       - name: Run tests
         run: pnpm test
         env:
-          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-          TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN || '' }}
+          TURBO_TEAM: ${{ vars.TURBO_TEAM || '' }}
 
   # separate "test" job to set as required in branch protections,
   # as the matrix build names above change each time Node versions change
