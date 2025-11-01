@@ -6,7 +6,6 @@ import ChatInput from '@/components/chat-input';
 import Link from 'next/link';
 
 export default function Home() {
-  const [showPremiumBanner, setShowPremiumBanner] = useState(true);
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
   const [sidebarMode, setSidebarMode] = useState<'examples' | 'history' | 'projects' | 'bookmarks' | null>(null);
   const { error, status, sendMessage, messages, regenerate, stop } = useChat();
@@ -370,13 +369,6 @@ export default function Home() {
       <div className="flex-1 flex flex-col relative">
         {/* Vector Pattern Background */}
         <div className="absolute inset-0 vector-pattern opacity-30 pointer-events-none"></div>
-
-        {/* Public Beta Tag */}
-        <div className="absolute top-6 right-6 z-10">
-          <span className="px-3 py-1.5 bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg text-xs text-[#888] font-light">
-            Public Beta
-          </span>
-        </div>
 
         {/* Messages Area (when there are messages) */}
         {messages.length > 0 ? (
