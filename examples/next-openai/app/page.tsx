@@ -107,7 +107,7 @@ export default function Home() {
         <div className="flex flex-col gap-6 flex-1 mt-8">
           <button 
             onClick={handleNewConversation}
-            className={`w-10 h-10 rounded-lg hover:bg-[#1a1a1a] flex items-center justify-center transition-colors ${sidebarMode === 'history' ? 'bg-[#1a1a1a]' : ''}`}
+            className={`w-10 h-10 rounded-lg hover:bg-[#000000] flex items-center justify-center transition-colors ${sidebarMode === 'history' ? 'bg-[#000000]' : ''}`}
             aria-label="New Conversation" 
             title="New Conversation"
           >
@@ -117,7 +117,7 @@ export default function Home() {
           </button>
           <button 
             onClick={() => handleSidebarClick('history')}
-            className={`w-10 h-10 rounded-lg hover:bg-[#1a1a1a] flex items-center justify-center transition-colors ${sidebarMode === 'history' ? 'bg-[#1a1a1a]' : ''}`}
+            className={`w-10 h-10 rounded-lg hover:bg-[#000000] flex items-center justify-center transition-colors ${sidebarMode === 'history' ? 'bg-[#000000]' : ''}`}
             aria-label="History" 
             title="History"
           >
@@ -169,7 +169,7 @@ export default function Home() {
                   <h1 className="text-xl font-semibold text-[#f5f5f0] tracking-tight">AI SDK Examples</h1>
                   <button
                     onClick={() => setSidebarExpanded(false)}
-                    className="p-1.5 hover:bg-[#1a1a1a] rounded-lg transition-colors"
+                    className="p-1.5 hover:bg-[#000000] rounded-lg transition-colors"
                     aria-label="Close sidebar"
                   >
                     <svg className="w-5 h-5 text-[#888]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -188,7 +188,7 @@ export default function Home() {
                     placeholder="Search examples..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg text-[#f5f5f0] placeholder:text-[#666] focus:outline-none focus:border-[#f5f5f0]/20 transition-all text-sm font-light"
+                    className="w-full pl-10 pr-4 py-2.5 bg-[#000000] border border-[#2a2a2a] rounded-lg text-[#f5f5f0] placeholder:text-[#666] focus:outline-none focus:border-[#f5f5f0]/20 transition-all text-sm font-light"
                   />
                   <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#666]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -203,8 +203,8 @@ export default function Home() {
                     onClick={() => setSelectedCategory(null)}
                     className={`w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 mb-2 ${
                       selectedCategory === null
-                        ? 'bg-[#1a1a1a] text-[#f5f5f0]'
-                        : 'text-[#888] hover:bg-[#151515] hover:text-[#f5f5f0]'
+                        ? 'bg-[#000000] text-[#f5f5f0]'
+                        : 'text-[#888] hover:bg-[#000000] hover:text-[#f5f5f0]'
                     }`}
                   >
                     All Examples
@@ -227,7 +227,7 @@ export default function Home() {
                               <Link
                                 key={example.link}
                                 href={example.link}
-                                className="block px-4 py-2.5 rounded-lg text-sm text-[#ccc] hover:bg-[#1a1a1a] hover:text-[#f5f5f0] transition-all duration-200 font-light"
+                                className="block px-4 py-2.5 rounded-lg text-sm text-[#ccc] hover:bg-[#000000] hover:text-[#f5f5f0] transition-all duration-200 font-light"
                               >
                                 {example.title}
                               </Link>
@@ -255,7 +255,7 @@ export default function Home() {
                   <h1 className="text-xl font-semibold text-[#f5f5f0] tracking-tight">History</h1>
                   <button
                     onClick={() => setSidebarExpanded(false)}
-                    className="p-1.5 hover:bg-[#1a1a1a] rounded-lg transition-colors"
+                    className="p-1.5 hover:bg-[#000000] rounded-lg transition-colors"
                     aria-label="Close sidebar"
                   >
                     <svg className="w-5 h-5 text-[#888]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -267,7 +267,7 @@ export default function Home() {
               <div className="px-6 py-4 border-b border-[#1a1a1a]/30">
                 <button
                   onClick={handleNewConversation}
-                  className="w-full px-4 py-2.5 bg-[#1a1a1a] hover:bg-[#1f1f1f] border border-[#2a2a2a] rounded-lg text-sm text-[#f5f5f0] font-medium transition-colors text-left"
+                  className="w-full px-4 py-2.5 bg-[#000000] hover:bg-[#000000] border border-[#2a2a2a] rounded-lg text-sm text-[#f5f5f0] font-medium transition-colors text-left"
                 >
                   + New Chat
                 </button>
@@ -277,7 +277,7 @@ export default function Home() {
                   {conversations.map((conv, idx) => (
                     <button
                       key={idx}
-                      className="w-full text-left px-3 py-2 rounded-lg text-sm text-[#ccc] hover:bg-[#1a1a1a] hover:text-[#f5f5f0] transition-colors font-light"
+                      className="w-full text-left px-3 py-2 rounded-lg text-sm text-[#ccc] hover:bg-[#000000] hover:text-[#f5f5f0] transition-colors font-light"
                     >
                       {conv}
                     </button>
@@ -294,7 +294,7 @@ export default function Home() {
                   <h1 className="text-xl font-semibold text-[#f5f5f0] tracking-tight">Projects</h1>
                   <button
                     onClick={() => setSidebarExpanded(false)}
-                    className="p-1.5 hover:bg-[#1a1a1a] rounded-lg transition-colors"
+                    className="p-1.5 hover:bg-[#000000] rounded-lg transition-colors"
                     aria-label="Close sidebar"
                   >
                     <svg className="w-5 h-5 text-[#888]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -308,7 +308,7 @@ export default function Home() {
                   {projects.map((project, idx) => (
                     <button
                       key={idx}
-                      className="w-full text-left px-3 py-2 rounded-lg text-sm text-[#ccc] hover:bg-[#1a1a1a] hover:text-[#f5f5f0] transition-colors font-light"
+                      className="w-full text-left px-3 py-2 rounded-lg text-sm text-[#ccc] hover:bg-[#000000] hover:text-[#f5f5f0] transition-colors font-light"
                     >
                       {project}
                     </button>
@@ -325,7 +325,7 @@ export default function Home() {
                   <h1 className="text-xl font-semibold text-[#f5f5f0] tracking-tight">Bookmarks</h1>
                   <button
                     onClick={() => setSidebarExpanded(false)}
-                    className="p-1.5 hover:bg-[#1a1a1a] rounded-lg transition-colors"
+                    className="p-1.5 hover:bg-[#000000] rounded-lg transition-colors"
                     aria-label="Close sidebar"
                   >
                     <svg className="w-5 h-5 text-[#888]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -339,7 +339,7 @@ export default function Home() {
                   {bookmarks.map((bookmark, idx) => (
                     <button
                       key={idx}
-                      className="w-full text-left px-3 py-2 rounded-lg text-sm text-[#ccc] hover:bg-[#1a1a1a] hover:text-[#f5f5f0] transition-colors font-light"
+                      className="w-full text-left px-3 py-2 rounded-lg text-sm text-[#ccc] hover:bg-[#000000] hover:text-[#f5f5f0] transition-colors font-light"
                     >
                       {bookmark}
                     </button>
@@ -366,15 +366,15 @@ export default function Home() {
                   }`}
                 >
                   {m.role === 'assistant' && (
-                    <div className="w-10 h-10 rounded-xl bg-[#1a1a1a] border border-[#2a2a2a] flex items-center justify-center flex-shrink-0">
+                    <div className="w-10 h-10 rounded-xl bg-[#000000] border border-[#2a2a2a] flex items-center justify-center flex-shrink-0">
                       <span className="text-xs font-semibold text-[#f5f5f0]">AI</span>
                     </div>
                   )}
                   <div
                     className={`max-w-[75%] rounded-2xl px-6 py-4 ${
                       m.role === 'user'
-                        ? 'bg-[#1a1a1a] border border-[#2a2a2a] text-[#f5f5f0]'
-                        : 'bg-[#0f0f0f] border border-[#2a2a2a] text-[#f5f5f0]'
+                        ? 'bg-[#000000] border border-[#2a2a2a] text-[#f5f5f0]'
+                        : 'bg-[#000000] border border-[#2a2a2a] text-[#f5f5f0]'
                     }`}
                   >
                     <div className="whitespace-pre-wrap break-words leading-relaxed text-[#f5f5f0] font-light">
@@ -386,7 +386,7 @@ export default function Home() {
                     </div>
                   </div>
                   {m.role === 'user' && (
-                    <div className="w-10 h-10 rounded-xl bg-[#1a1a1a] border border-[#2a2a2a] flex items-center justify-center flex-shrink-0">
+                    <div className="w-10 h-10 rounded-xl bg-[#000000] border border-[#2a2a2a] flex items-center justify-center flex-shrink-0">
                       <span className="text-xs font-semibold text-[#f5f5f0]">You</span>
                     </div>
                   )}
@@ -399,7 +399,7 @@ export default function Home() {
                   <div className="w-10 h-10 rounded-xl bg-[#1a1a1a] border border-[#2a2a2a] flex items-center justify-center flex-shrink-0">
                     <span className="text-xs font-semibold text-[#f5f5f0]">AI</span>
                   </div>
-                  <div className="bg-[#0f0f0f] border border-[#2a2a2a] rounded-2xl px-6 py-4">
+                  <div className="bg-[#000000] border border-[#2a2a2a] rounded-2xl px-6 py-4">
                     <div className="flex gap-2">
                       <span className="w-2 h-2 bg-[#888] rounded-full animate-bounce [animation-delay:0ms]"></span>
                       <span className="w-2 h-2 bg-[#888] rounded-full animate-bounce [animation-delay:150ms]"></span>
@@ -415,7 +415,7 @@ export default function Home() {
                   <div className="w-10 h-10 rounded-xl bg-[#1a1a1a] border border-[#2a2a2a] flex items-center justify-center flex-shrink-0">
                     <span className="text-xs font-semibold text-[#f5f5f0]">!</span>
                   </div>
-                  <div className="bg-[#0f0f0f] border border-[#2a2a2a] rounded-2xl px-6 py-4">
+                  <div className="bg-[#000000] border border-[#2a2a2a] rounded-2xl px-6 py-4">
                     <div className="text-[#888] mb-2 font-light">An error occurred</div>
           <button
             onClick={() => regenerate()}

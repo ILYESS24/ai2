@@ -32,11 +32,11 @@ export default function ChatInput({
       }}
       className="relative"
     >
-      <div className="flex items-center gap-3 bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl px-4 py-3 focus-within:border-[#f5f5f0]/20 transition-all duration-200">
+      <div className="flex items-center gap-3 bg-[#000000] border border-[#2a2a2a] rounded-xl px-4 py-3 focus-within:border-[#f5f5f0]/20 transition-all duration-200">
         {/* Paperclip Icon */}
         <button
           type="button"
-          className="p-2 hover:bg-[#0f0f0f] rounded-lg transition-colors flex-shrink-0"
+          className="p-2 hover:bg-[#000000] rounded-lg transition-colors flex-shrink-0"
           aria-label="Attach file"
           title="Attach file"
         >
@@ -48,7 +48,7 @@ export default function ChatInput({
         {/* + Project Button */}
         <button
           type="button"
-          className="px-3 py-1.5 bg-[#0f0f0f] hover:bg-[#151515] border border-[#2a2a2a] rounded-lg text-sm text-[#f5f5f0] font-light transition-colors flex-shrink-0"
+          className="px-3 py-1.5 bg-[#000000] hover:bg-[#000000] border border-[#2a2a2a] rounded-lg text-sm text-[#f5f5f0] font-light transition-colors flex-shrink-0"
         >
           + Project
         </button>
@@ -81,7 +81,7 @@ export default function ChatInput({
           <button
             type="button"
             onClick={stop}
-            className="w-10 h-10 bg-[#1a1a1a] hover:bg-[#0f0f0f] border border-[#2a2a2a] rounded-full flex items-center justify-center transition-all flex-shrink-0"
+            className="w-10 h-10 bg-[#000000] hover:bg-[#000000] border border-[#2a2a2a] rounded-full flex items-center justify-center transition-all flex-shrink-0"
             aria-label="Stop"
             title="Stop"
           >
