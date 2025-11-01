@@ -103,15 +103,8 @@ export default function Home() {
     <div className="flex h-screen bg-[#0a0a0a] text-[#f5f5f0] overflow-hidden font-['Poppins']">
       {/* Minimalist Sidebar */}
       <div className="w-16 bg-[#0f0f0f] border-r border-[#1a1a1a]/30 flex flex-col items-center py-6 relative z-30">
-        {/* Logo */}
-        <div className="mb-8">
-          <div className="w-8 h-8 rounded-lg bg-[#f5f5f0] flex items-center justify-center cursor-pointer">
-            <span className="text-[#0a0a0a] text-xs font-bold">V2</span>
-          </div>
-        </div>
-
         {/* Icons Stack */}
-        <div className="flex flex-col gap-6 flex-1">
+        <div className="flex flex-col gap-6 flex-1 mt-8">
           <button 
             onClick={handleNewConversation}
             className={`w-10 h-10 rounded-lg hover:bg-[#1a1a1a] flex items-center justify-center transition-colors ${sidebarMode === 'history' ? 'bg-[#1a1a1a]' : ''}`}
@@ -162,13 +155,6 @@ export default function Home() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
             </svg>
           </button>
-        </div>
-
-        {/* Profile Picture */}
-        <div className="w-10 h-10 rounded-full bg-[#1a1a1a] border border-[#2a2a2a] flex items-center justify-center cursor-pointer hover:border-[#f5f5f0]/20 transition-colors">
-          <svg className="w-6 h-6 text-[#888]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-          </svg>
         </div>
       </div>
 
@@ -394,11 +380,11 @@ export default function Home() {
                     }`}
                   >
                     <div className="whitespace-pre-wrap break-words leading-relaxed text-[#f5f5f0] font-light">
-                      {m.parts.map(part => {
-                        if (part.type === 'text') {
-                          return part.text;
-                        }
-                      })}
+          {m.parts.map(part => {
+            if (part.type === 'text') {
+              return part.text;
+            }
+          })}
                     </div>
                   </div>
                   {m.role === 'user' && (
@@ -406,11 +392,11 @@ export default function Home() {
                       <span className="text-xs font-semibold text-[#f5f5f0]">You</span>
                     </div>
                   )}
-                </div>
-              ))}
+        </div>
+      ))}
 
               {/* Loading Indicator */}
-              {(status === 'submitted' || status === 'streaming') && (
+      {(status === 'submitted' || status === 'streaming') && (
                 <div className="flex gap-4 justify-start">
                   <div className="w-10 h-10 rounded-xl bg-[#1a1a1a] border border-[#2a2a2a] flex items-center justify-center flex-shrink-0">
                     <span className="text-xs font-semibold text-[#f5f5f0]">AI</span>
@@ -422,23 +408,23 @@ export default function Home() {
                       <span className="w-2 h-2 bg-[#888] rounded-full animate-bounce [animation-delay:300ms]"></span>
                     </div>
                   </div>
-                </div>
-              )}
+        </div>
+      )}
 
               {/* Error Message */}
-              {error && (
+      {error && (
                 <div className="flex gap-4 justify-start">
                   <div className="w-10 h-10 rounded-xl bg-[#1a1a1a] border border-[#2a2a2a] flex items-center justify-center flex-shrink-0">
                     <span className="text-xs font-semibold text-[#f5f5f0]">!</span>
                   </div>
                   <div className="bg-[#0f0f0f] border border-[#2a2a2a] rounded-2xl px-6 py-4">
                     <div className="text-[#888] mb-2 font-light">An error occurred</div>
-                    <button
-                      onClick={() => regenerate()}
+          <button
+            onClick={() => regenerate()}
                       className="text-sm text-[#f5f5f0] hover:text-[#888] underline font-light transition-colors"
-                    >
-                      Retry
-                    </button>
+          >
+            Retry
+          </button>
                   </div>
                 </div>
               )}
@@ -458,37 +444,15 @@ export default function Home() {
                 </p>
               </div>
 
-              {/* Premium Banner */}
-              {showPremiumBanner && (
-                <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl px-4 py-3 flex items-center justify-between">
-                  <span className="text-sm text-[#888] font-light">
-                    Need more messages? Get higher limits with Premium.
-                  </span>
-                  <div className="flex items-center gap-3">
-                    <button className="text-sm text-[#60a5fa] hover:text-[#93c5fd] font-medium transition-colors">
-                      Upgrade Plan
-                    </button>
-                    <button
-                      onClick={() => setShowPremiumBanner(false)}
-                      className="w-5 h-5 flex items-center justify-center text-[#666] hover:text-[#f5f5f0] transition-colors"
-                      aria-label="Close banner"
-                      title="Close banner"
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              )}
             </div>
-          </div>
-        )}
+        </div>
+      )}
 
-        {/* Input Box */}
+        {/* Input Box - Centered */}
         <div className="border-t border-[#1a1a1a]/30 bg-[#0f0f0f] p-6 relative z-10">
-          <div className="max-w-3xl mx-auto space-y-4">
-            <ChatInput status={status} onSubmit={text => sendMessage({ text })} stop={stop} />
+          <div className="flex items-center justify-center">
+            <div className="w-full max-w-3xl space-y-4">
+              <ChatInput status={status} onSubmit={text => sendMessage({ text })} stop={stop} />
 
             {/* Suggestion Chips (only show when no messages) */}
             {messages.length === 0 && (
@@ -507,6 +471,7 @@ export default function Home() {
                 ))}
               </div>
             )}
+            </div>
           </div>
         </div>
 
