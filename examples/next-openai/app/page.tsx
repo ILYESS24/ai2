@@ -160,7 +160,7 @@ export default function Home() {
 
       {/* Expandable Sidebar */}
       {sidebarExpanded && (
-        <div className="w-80 bg-[#0f0f0f] border-r border-[#1a1a1a]/30 flex flex-col transition-all duration-300 ease-out relative z-20 h-full">
+        <div className="w-80 bg-[#000000] border-r border-[#1a1a1a]/30 flex flex-col transition-all duration-300 ease-out relative z-20 h-full">
           {sidebarMode === 'examples' && (
             <>
               {/* Header */}
