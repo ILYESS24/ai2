@@ -94,6 +94,8 @@ export default function ChatInput({
             type="submit"
             disabled={status !== 'ready' || text.trim() === ''}
             className="w-10 h-10 bg-[#f5f5f0] hover:bg-[#e8e8e3] disabled:opacity-50 disabled:cursor-not-allowed text-[#0a0a0a] rounded-full flex items-center justify-center transition-all flex-shrink-0 disabled:hover:bg-[#f5f5f0]"
+            aria-label="Send message"
+            title="Send message"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
