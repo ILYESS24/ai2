@@ -102,7 +102,7 @@ export default function Home() {
   return (
     <div className="flex h-screen bg-[#0a0a0a] text-[#f5f5f0] overflow-hidden font-['Poppins']">
       {/* Minimalist Sidebar */}
-      <div className="w-16 bg-[#0f0f0f] border-r border-[#1a1a1a]/30 flex flex-col items-center py-6 relative z-30">
+      <div className="w-16 bg-[#000000] border-r border-[#1a1a1a]/30 flex flex-col items-center py-6 relative z-30">
         {/* Icons Stack */}
         <div className="flex flex-col gap-6 flex-1 mt-8">
           <button 
@@ -449,15 +449,15 @@ export default function Home() {
                 <ChatInput status={status} onSubmit={text => sendMessage({ text })} stop={stop} />
 
                 {/* Suggestion Chips */}
-                <div className="flex flex-wrap gap-3 justify-center">
+                <div className="flex flex-wrap gap-2 justify-center">
                   {suggestions.map((suggestion, index) => (
                     <button
                       key={index}
-                      className="px-4 py-2.5 bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg text-sm text-[#f5f5f0] font-light hover:bg-[#1f1f1f] hover:border-[#2a2a2a] transition-all flex items-center gap-2"
+                      className="px-3 py-1.5 bg-[#1a1a1a] border border-[#2a2a2a] rounded-full text-xs text-[#f5f5f0] font-light hover:bg-[#1f1f1f] hover:border-[#2a2a2a] transition-all flex items-center gap-1.5"
                       onClick={() => sendMessage({ text: suggestion })}
                     >
                       <span>{suggestion}</span>
-                      <svg className="w-4 h-4 text-[#888]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-3 h-3 text-[#888]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                       </svg>
                     </button>
@@ -476,24 +476,9 @@ export default function Home() {
                 <ChatInput status={status} onSubmit={text => sendMessage({ text })} stop={stop} />
               </div>
             </div>
-          </div>
-        )}
-
-        {/* Minimal Footer */}
-        <div className="border-t border-[#1a1a1a]/30 py-6 relative z-10">
-          <div className="flex items-center justify-center gap-6 text-sm text-[#666] font-light">
-            <Link href="#" className="hover:text-[#f5f5f0] transition-colors">FAQ</Link>
-            <Link href="#" className="hover:text-[#f5f5f0] transition-colors">Terms</Link>
-            <Link href="#" className="hover:text-[#f5f5f0] transition-colors">AI Policy</Link>
-            <Link href="#" className="hover:text-[#f5f5f0] transition-colors">Privacy</Link>
-            <Link href="https://vercel.com" target="_blank" className="hover:text-[#f5f5f0] transition-colors flex items-center gap-1">
-              Vercel
-              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-              </svg>
-            </Link>
-          </div>
         </div>
+      )}
+
       </div>
 
       <style jsx global>{`
