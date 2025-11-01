@@ -444,36 +444,40 @@ export default function Home() {
                 </p>
               </div>
 
-            </div>
-        </div>
-      )}
+              {/* Input Box - Centered */}
+              <div className="space-y-4">
+                <ChatInput status={status} onSubmit={text => sendMessage({ text })} stop={stop} />
 
-        {/* Input Box - Centered */}
-        <div className="border-t border-[#1a1a1a]/30 bg-[#0f0f0f] p-6 relative z-10">
-          <div className="flex items-center justify-center">
-            <div className="w-full max-w-3xl space-y-4">
-              <ChatInput status={status} onSubmit={text => sendMessage({ text })} stop={stop} />
-
-            {/* Suggestion Chips (only show when no messages) */}
-            {messages.length === 0 && (
-              <div className="flex flex-wrap gap-3 justify-center">
-                {suggestions.map((suggestion, index) => (
-                  <button
-                    key={index}
-                    className="px-4 py-2.5 bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg text-sm text-[#f5f5f0] font-light hover:bg-[#1f1f1f] hover:border-[#2a2a2a] transition-all flex items-center gap-2"
-                    onClick={() => sendMessage({ text: suggestion })}
-                  >
-                    <span>{suggestion}</span>
-                    <svg className="w-4 h-4 text-[#888]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
-                  </button>
-                ))}
+                {/* Suggestion Chips */}
+                <div className="flex flex-wrap gap-3 justify-center">
+                  {suggestions.map((suggestion, index) => (
+                    <button
+                      key={index}
+                      className="px-4 py-2.5 bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg text-sm text-[#f5f5f0] font-light hover:bg-[#1f1f1f] hover:border-[#2a2a2a] transition-all flex items-center gap-2"
+                      onClick={() => sendMessage({ text: suggestion })}
+                    >
+                      <span>{suggestion}</span>
+                      <svg className="w-4 h-4 text-[#888]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </button>
+                  ))}
+                </div>
               </div>
-            )}
             </div>
           </div>
-        </div>
+        )}
+
+        {/* Input Box for when there are messages */}
+        {messages.length > 0 && (
+          <div className="p-6 relative z-10">
+            <div className="flex items-center justify-center">
+              <div className="w-full max-w-3xl space-y-4">
+                <ChatInput status={status} onSubmit={text => sendMessage({ text })} stop={stop} />
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Minimal Footer */}
         <div className="border-t border-[#1a1a1a]/30 py-6 relative z-10">
