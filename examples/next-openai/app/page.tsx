@@ -8,7 +8,7 @@ import Link from 'next/link';
 export default function Home() {
   const [showPremiumBanner, setShowPremiumBanner] = useState(true);
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
-  const [sidebarMode, setSidebarMode] = useState<'examples' | 'history' | 'projects' | null>(null);
+  const [sidebarMode, setSidebarMode] = useState<'examples' | 'history' | 'projects' | 'bookmarks' | null>(null);
   const { error, status, sendMessage, messages, regenerate, stop } = useChat();
 
   const examples = [
