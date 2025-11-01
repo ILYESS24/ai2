@@ -353,8 +353,6 @@ export default function Home() {
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col relative">
-        {/* Vector Pattern Background */}
-        <div className="absolute inset-0 bg-pattern-vector opacity-100 pointer-events-none"></div>
 
         {/* Messages Area (when there are messages) */}
         {messages.length > 0 ? (
