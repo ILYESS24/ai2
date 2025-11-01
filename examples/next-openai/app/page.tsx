@@ -100,7 +100,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex h-screen bg-[#0a0a0a] text-[#f5f5f0] overflow-hidden font-['Poppins']">
+    <div className="flex h-screen bg-[#000000] text-[#f5f5f0] overflow-hidden font-['Poppins']">
       {/* Minimalist Sidebar */}
       <div className="w-16 bg-[#000000] border-r border-[#1a1a1a]/30 flex flex-col items-center py-6 relative z-30">
         {/* Icons Stack */}
@@ -354,7 +354,7 @@ export default function Home() {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col relative">
         {/* Vector Pattern Background */}
-        <div className="absolute inset-0 vector-pattern opacity-30 pointer-events-none"></div>
+        <div className="absolute inset-0 bg-pattern-vector opacity-100 pointer-events-none"></div>
 
         {/* Messages Area (when there are messages) */}
         {messages.length > 0 ? (
@@ -453,7 +453,7 @@ export default function Home() {
                   {suggestions.map((suggestion, index) => (
                     <button
                       key={index}
-                      className="px-3 py-1.5 bg-[#1a1a1a] border border-[#2a2a2a] rounded-full text-xs text-[#f5f5f0] font-light hover:bg-[#1f1f1f] hover:border-[#2a2a2a] transition-all flex items-center gap-1.5"
+                      className="px-3 py-1.5 bg-[#000000] border border-[#2a2a2a] rounded-full text-xs text-[#f5f5f0] font-light hover:bg-[#0a0a0a] hover:border-[#2a2a2a] transition-all flex items-center gap-1.5"
                       onClick={() => sendMessage({ text: suggestion })}
                     >
                       <span>{suggestion}</span>
