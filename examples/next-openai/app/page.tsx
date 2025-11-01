@@ -28,22 +28,22 @@ export default function Home() {
 
         {/* Icons Stack */}
         <div className="flex flex-col gap-6 flex-1">
-          <button className="w-10 h-10 rounded-lg hover:bg-[#1a1a1a] flex items-center justify-center transition-colors">
+          <button className="w-10 h-10 rounded-lg hover:bg-[#1a1a1a] flex items-center justify-center transition-colors" aria-label="New" title="New">
             <svg className="w-5 h-5 text-[#f5f5f0]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
             </svg>
           </button>
-          <button className="w-10 h-10 rounded-lg hover:bg-[#1a1a1a] flex items-center justify-center transition-colors">
+          <button className="w-10 h-10 rounded-lg hover:bg-[#1a1a1a] flex items-center justify-center transition-colors" aria-label="History" title="History">
             <svg className="w-5 h-5 text-[#f5f5f0]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </button>
-          <button className="w-10 h-10 rounded-lg hover:bg-[#1a1a1a] flex items-center justify-center transition-colors">
+          <button className="w-10 h-10 rounded-lg hover:bg-[#1a1a1a] flex items-center justify-center transition-colors" aria-label="Projects" title="Projects">
             <svg className="w-5 h-5 text-[#f5f5f0]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
             </svg>
           </button>
-          <button className="w-10 h-10 rounded-lg hover:bg-[#1a1a1a] flex items-center justify-center transition-colors">
+          <button className="w-10 h-10 rounded-lg hover:bg-[#1a1a1a] flex items-center justify-center transition-colors" aria-label="Bookmarks" title="Bookmarks">
             <svg className="w-5 h-5 text-[#f5f5f0]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
             </svg>
@@ -96,6 +96,8 @@ export default function Home() {
                   <button
                     onClick={() => setShowPremiumBanner(false)}
                     className="w-5 h-5 flex items-center justify-center text-[#666] hover:text-[#f5f5f0] transition-colors"
+                    aria-label="Close banner"
+                    title="Close banner"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
