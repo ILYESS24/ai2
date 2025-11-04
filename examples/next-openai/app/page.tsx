@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useChat } from '@ai-sdk/react';
 import ChatInput from '@/components/chat-input';
 import Link from 'next/link';
@@ -10,6 +10,20 @@ export default function Home() {
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
   const [sidebarMode, setSidebarMode] = useState<'examples' | 'history' | 'projects' | 'bookmarks' | null>(null);
   const { error, status, sendMessage, messages, regenerate, stop } = useChat();
+  const [gridProps, setGridProps] = useState({ rows: 20, cols: 30, cellSize: 50 });
+
+  useEffect(() => {
+    const updateGrid = () => {
+      const cellSize = 50;
+      const rows = Math.ceil(window.innerHeight / cellSize);
+      const cols = Math.ceil(window.innerWidth / cellSize);
+      setGridProps({ rows, cols, cellSize });
+    };
+
+    updateGrid();
+    window.addEventListener('resize', updateGrid);
+    return () => window.removeEventListener('resize', updateGrid);
+  }, []);
 
   const examples = [
     { title: 'Basic Chat', link: '/use-chat-tools', category: 'Core' },
@@ -356,9 +370,9 @@ export default function Home() {
       <div className="flex-1 flex flex-col relative">
         {/* Background Ripple Effect */}
         <BackgroundRippleEffect 
-          rows={Math.ceil(typeof window !== 'undefined' ? window.innerHeight / 50 : 20)}
-          cols={Math.ceil(typeof window !== 'undefined' ? window.innerWidth / 50 : 30)}
-          cellSize={50}
+          rows={gridProps.rows}
+          cols={gridProps.cols}
+          cellSize={gridProps.cellSize}
         />
 
         {/* Messages Area (when there are messages) */}
