@@ -61,8 +61,8 @@ export function BackgroundRippleEffect() {
     ripple.style.borderRadius = '50%';
     ripple.style.background = 'radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%)';
     ripple.style.pointerEvents = 'none';
-    ripple.style.transform = 'scale(0)';
-    ripple.style.animation = 'ripple 0.8s ease-out';
+    ripple.style.opacity = '1';
+    ripple.style.animation = 'ripple 0.8s ease-out forwards';
     ripple.style.zIndex = '10';
 
     const container = containerRef.current;
@@ -82,6 +82,10 @@ export function BackgroundRippleEffect() {
       style.id = 'ripple-animation-style';
       style.textContent = `
         @keyframes ripple {
+          from {
+            transform: scale(0);
+            opacity: 1;
+          }
           to {
             transform: scale(4);
             opacity: 0;
