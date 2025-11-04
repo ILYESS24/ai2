@@ -1,223 +1,133 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useMemo, useRef, useState } from "react";
+import { cn } from "@/lib/utils";
 
-export function BackgroundRippleEffect() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const boxesRef = useRef<Array<{
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-    rippleX: number;
-    rippleY: number;
-    rippleSize: number;
-    rippleOpacity: number;
-  }>>([]);
-  const animationFrameRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const container = containerRef.current;
-    if (!canvas || !container) {
-      console.error("Canvas or container not found!");
-      return;
-    }
-
-    const ctx = canvas.getContext("2d");
-    if (!ctx) {
-      console.error("Cannot get 2d context!");
-      return;
-    }
-
-    const resizeCanvas = () => {
-      const rect = container.getBoundingClientRect();
-      canvas.width = rect.width;
-      canvas.height = rect.height;
-
-      const boxSize = 50;
-      const gap = 4;
-      const boxes: Array<{
-        x: number;
-        y: number;
-        width: number;
-        height: number;
-        rippleX: number;
-        rippleY: number;
-        rippleSize: number;
-        rippleOpacity: number;
-      }> = [];
-
-      const cols = Math.ceil(canvas.width / (boxSize + gap));
-      const rows = Math.ceil(canvas.height / (boxSize + gap));
-
-      for (let row = 0; row < rows; row++) {
-        for (let col = 0; col < cols; col++) {
-          boxes.push({
-            x: col * (boxSize + gap),
-            y: row * (boxSize + gap),
-            width: boxSize,
-            height: boxSize,
-            rippleX: -1,
-            rippleY: -1,
-            rippleSize: 0,
-            rippleOpacity: 0,
-          });
-        }
-      }
-      boxesRef.current = boxes;
-      console.log(`Created ${boxes.length} boxes`);
-    };
-
-    resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
-
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = container.getBoundingClientRect();
-      const mouseX = e.clientX - rect.left;
-      const mouseY = e.clientY - rect.top;
-
-      boxesRef.current.forEach((box) => {
-        if (
-          mouseX >= box.x &&
-          mouseX <= box.x + box.width &&
-          mouseY >= box.y &&
-          mouseY <= box.y + box.height
-        ) {
-          box.rippleX = mouseX - box.x;
-          box.rippleY = mouseY - box.y;
-          box.rippleSize = 10;
-          box.rippleOpacity = 1.0;
-          console.log("Ripple created at:", box.rippleX, box.rippleY);
-        }
-      });
-    };
-
-    const handleClick = (e: MouseEvent) => {
-      const rect = container.getBoundingClientRect();
-      const mouseX = e.clientX - rect.left;
-      const mouseY = e.clientY - rect.top;
-
-      boxesRef.current.forEach((box) => {
-        if (
-          mouseX >= box.x &&
-          mouseX <= box.x + box.width &&
-          mouseY >= box.y &&
-          mouseY <= box.y + box.height
-        ) {
-          box.rippleX = box.width / 2;
-          box.rippleY = box.height / 2;
-          box.rippleSize = 10;
-          box.rippleOpacity = 1.0;
-          console.log("Click ripple created");
-        }
-      });
-    };
-
-    container.addEventListener("mousemove", handleMouseMove);
-    container.addEventListener("click", handleClick);
-
-    let frameCount = 0;
-    const animate = () => {
-      frameCount++;
-      if (frameCount % 60 === 0) {
-        console.log("Animation running, frame:", frameCount);
-      }
-
-      // Clear canvas
-      ctx.fillStyle = "#000000";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      let activeRipples = 0;
-      boxesRef.current.forEach((box) => {
-        // Draw box border - WHITE for visibility
-        ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
-        ctx.lineWidth = 1;
-        ctx.strokeRect(box.x, box.y, box.width, box.height);
-
-        // Draw ripple effect
-        if (box.rippleOpacity > 0 && box.rippleX >= 0 && box.rippleY >= 0) {
-          activeRipples++;
-          const maxSize = Math.max(box.width, box.height) * 4;
-          
-          if (box.rippleSize < maxSize && box.rippleOpacity > 0) {
-            // Create very visible gradient - BRIGHT WHITE
-            const gradient = ctx.createRadialGradient(
-              box.x + box.rippleX,
-              box.y + box.rippleY,
-              0,
-              box.x + box.rippleX,
-              box.y + box.rippleY,
-              box.rippleSize
-            );
-            gradient.addColorStop(0, `rgba(255, 255, 255, ${Math.min(box.rippleOpacity, 1)})`);
-            gradient.addColorStop(0.2, `rgba(255, 255, 255, ${box.rippleOpacity * 0.8})`);
-            gradient.addColorStop(0.5, `rgba(255, 255, 255, ${box.rippleOpacity * 0.5})`);
-            gradient.addColorStop(0.8, `rgba(255, 255, 255, ${box.rippleOpacity * 0.2})`);
-            gradient.addColorStop(1, "transparent");
-
-            ctx.fillStyle = gradient;
-            ctx.beginPath();
-            ctx.arc(
-              box.x + box.rippleX,
-              box.y + box.rippleY,
-              box.rippleSize,
-              0,
-              Math.PI * 2
-            );
-            ctx.fill();
-
-            // Animate ripple - very fast
-            box.rippleSize += 20;
-            box.rippleOpacity -= 0.08;
-
-            if (box.rippleOpacity <= 0 || box.rippleSize >= maxSize) {
-              box.rippleSize = 0;
-              box.rippleOpacity = 0;
-              box.rippleX = -1;
-              box.rippleY = -1;
-            }
-          } else {
-            box.rippleSize = 0;
-            box.rippleOpacity = 0;
-            box.rippleX = -1;
-            box.rippleY = -1;
-          }
-        }
-      });
-
-      if (activeRipples > 0 && frameCount % 10 === 0) {
-        console.log("Active ripples:", activeRipples);
-      }
-
-      animationFrameRef.current = requestAnimationFrame(animate);
-    };
-
-    // Start animation immediately
-    console.log("Starting animation...");
-    animate();
-
-    return () => {
-      console.log("Cleaning up...");
-      window.removeEventListener("resize", resizeCanvas);
-      container.removeEventListener("mousemove", handleMouseMove);
-      container.removeEventListener("click", handleClick);
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-    };
-  }, []);
+export const BackgroundRippleEffect = ({
+  rows = 8,
+  cols = 27,
+  cellSize = 56,
+}: {
+  rows?: number;
+  cols?: number;
+  cellSize?: number;
+}) => {
+  const [clickedCell, setClickedCell] = useState<{
+    row: number;
+    col: number;
+  } | null>(null);
+  const [rippleKey, setRippleKey] = useState(0);
+  const ref = useRef<any>(null);
 
   return (
     <div
-      ref={containerRef}
-      className="absolute inset-0 w-full h-full pointer-events-auto"
-      style={{ zIndex: 0 }}
+      ref={ref}
+      className={cn(
+        "absolute inset-0 h-full w-full pointer-events-auto",
+        "[--cell-border-color:rgba(26,26,26,0.3)] [--cell-fill-color:transparent] [--cell-shadow-color:rgba(255,255,255,0.1)]",
+      )}
     >
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 w-full h-full"
-      />
+      <div className="relative h-full w-full overflow-hidden">
+        <div className="pointer-events-none absolute inset-0 z-[2] h-full w-full overflow-hidden" />
+        <DivGrid
+          key={`base-${rippleKey}`}
+          className="absolute inset-0 w-full h-full"
+          rows={rows}
+          cols={cols}
+          cellSize={cellSize}
+          borderColor="rgba(26,26,26,0.3)"
+          fillColor="transparent"
+          clickedCell={clickedCell}
+          onCellClick={(row, col) => {
+            setClickedCell({ row, col });
+            setRippleKey((k) => k + 1);
+          }}
+          interactive
+        />
+      </div>
     </div>
   );
-}
+};
+
+type DivGridProps = {
+  className?: string;
+  rows: number;
+  cols: number;
+  cellSize: number; // in pixels
+  borderColor: string;
+  fillColor: string;
+  clickedCell: { row: number; col: number } | null;
+  onCellClick?: (row: number, col: number) => void;
+  interactive?: boolean;
+};
+
+type CellStyle = React.CSSProperties & {
+  ["--delay"]?: string;
+  ["--duration"]?: string;
+};
+
+const DivGrid = ({
+  className,
+  rows = 7,
+  cols = 30,
+  cellSize = 56,
+  borderColor = "#3f3f46",
+  fillColor = "rgba(14,165,233,0.3)",
+  clickedCell = null,
+  onCellClick = () => {},
+  interactive = true,
+}: DivGridProps) => {
+  const cells = useMemo(
+    () => Array.from({ length: rows * cols }, (_, idx) => idx),
+    [rows, cols],
+  );
+
+  const gridStyle: React.CSSProperties = {
+    display: "grid",
+    gridTemplateColumns: `repeat(${cols}, ${cellSize}px)`,
+    gridTemplateRows: `repeat(${rows}, ${cellSize}px)`,
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignContent: "center",
+  };
+
+  return (
+    <div className={cn("relative z-[3]", className)} style={gridStyle}>
+      {cells.map((idx) => {
+        const rowIdx = Math.floor(idx / cols);
+        const colIdx = idx % cols;
+        const distance = clickedCell
+          ? Math.hypot(clickedCell.row - rowIdx, clickedCell.col - colIdx)
+          : 0;
+        const delay = clickedCell ? Math.max(0, distance * 55) : 0; // ms
+        const duration = 200 + distance * 80; // ms
+
+        const style: CellStyle = clickedCell
+          ? {
+              "--delay": `${delay}ms`,
+              "--duration": `${duration}ms`,
+            }
+          : {};
+
+        return (
+          <div
+            key={idx}
+            className={cn(
+              "cell relative border-[0.5px] opacity-40 transition-opacity duration-150 will-change-transform hover:opacity-80 dark:shadow-[0px_0px_40px_1px_var(--cell-shadow-color)_inset]",
+              clickedCell && "animate-cell-ripple [animation-fill-mode:none]",
+              !interactive && "pointer-events-none",
+            )}
+            style={{
+              backgroundColor: fillColor,
+              borderColor: borderColor,
+              ...style,
+            }}
+            onClick={
+              interactive ? () => onCellClick?.(rowIdx, colIdx) : undefined
+            }
+          />
+        );
+      })}
+    </div>
+  );
+};

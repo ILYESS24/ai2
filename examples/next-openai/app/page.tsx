@@ -355,7 +355,11 @@ export default function Home() {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col relative">
         {/* Background Ripple Effect */}
-        <BackgroundRippleEffect />
+        <BackgroundRippleEffect 
+          rows={Math.ceil(typeof window !== 'undefined' ? window.innerHeight / 50 : 20)}
+          cols={Math.ceil(typeof window !== 'undefined' ? window.innerWidth / 50 : 30)}
+          cellSize={50}
+        />
 
         {/* Messages Area (when there are messages) */}
         {messages.length > 0 ? (
