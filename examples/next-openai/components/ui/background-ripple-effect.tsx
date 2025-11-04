@@ -50,9 +50,11 @@ export function BackgroundRippleEffect() {
     const containerRect = containerRef.current?.getBoundingClientRect();
     if (!containerRect) return;
 
-    const size = boxSize * 2;
-    const x = e.clientX - containerRect.left - size / 2;
-    const y = e.clientY - containerRect.top - size / 2;
+    // Get center of the box for ripple origin
+    const boxRect = boxElement.getBoundingClientRect();
+    const size = boxSize * 3;
+    const x = (boxRect.left + boxRect.width / 2) - containerRect.left - size / 2;
+    const y = (boxRect.top + boxRect.height / 2) - containerRect.top - size / 2;
 
     ripple.style.width = ripple.style.height = `${size}px`;
     ripple.style.left = `${x}px`;
@@ -105,6 +107,7 @@ export function BackgroundRippleEffect() {
       {boxes.map((box) => (
         <div
           key={box.id}
+          onMouseEnter={(e) => createRipple(e, box.id)}
           onClick={(e) => createRipple(e, box.id)}
           className="absolute border border-[#1a1a1a]/30 hover:border-[#2a2a2a]/50 transition-colors cursor-pointer"
           style={{
