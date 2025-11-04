@@ -4,6 +4,16 @@ import React, { useEffect, useRef } from "react";
 export function BackgroundRippleEffect() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const boxesRef = useRef<Array<{
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    rippleX: number;
+    rippleY: number;
+    rippleSize: number;
+    rippleOpacity: number;
+  }>>([]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -14,16 +24,6 @@ export function BackgroundRippleEffect() {
     if (!ctx) return;
 
     let animationFrameId: number;
-    let boxes: Array<{
-      x: number;
-      y: number;
-      width: number;
-      height: number;
-      rippleX: number;
-      rippleY: number;
-      rippleSize: number;
-      rippleOpacity: number;
-    }> = [];
 
     const resizeCanvas = () => {
       const rect = container.getBoundingClientRect();
@@ -32,7 +32,16 @@ export function BackgroundRippleEffect() {
 
       const boxSize = 50;
       const gap = 4;
-      boxes = [];
+      const boxes: Array<{
+        x: number;
+        y: number;
+        width: number;
+        height: number;
+        rippleX: number;
+        rippleY: number;
+        rippleSize: number;
+        rippleOpacity: number;
+      }> = [];
 
       const cols = Math.ceil(canvas.width / (boxSize + gap));
       const rows = Math.ceil(canvas.height / (boxSize + gap));
@@ -51,6 +60,7 @@ export function BackgroundRippleEffect() {
           });
         }
       }
+      boxesRef.current = boxes;
     };
 
     resizeCanvas();
@@ -61,7 +71,7 @@ export function BackgroundRippleEffect() {
       const mouseX = e.clientX - rect.left;
       const mouseY = e.clientY - rect.top;
 
-      boxes.forEach((box) => {
+      boxesRef.current.forEach((box) => {
         if (
           mouseX >= box.x &&
           mouseX <= box.x + box.width &&
@@ -71,7 +81,7 @@ export function BackgroundRippleEffect() {
           box.rippleX = mouseX - box.x;
           box.rippleY = mouseY - box.y;
           box.rippleSize = 0;
-          box.rippleOpacity = 0.6;
+          box.rippleOpacity = 0.8;
         }
       });
     };
@@ -81,7 +91,7 @@ export function BackgroundRippleEffect() {
       const mouseX = e.clientX - rect.left;
       const mouseY = e.clientY - rect.top;
 
-      boxes.forEach((box) => {
+      boxesRef.current.forEach((box) => {
         if (
           mouseX >= box.x &&
           mouseX <= box.x + box.width &&
@@ -91,7 +101,7 @@ export function BackgroundRippleEffect() {
           box.rippleX = box.width / 2;
           box.rippleY = box.height / 2;
           box.rippleSize = 0;
-          box.rippleOpacity = 0.6;
+          box.rippleOpacity = 0.8;
         }
       });
     };
@@ -102,7 +112,7 @@ export function BackgroundRippleEffect() {
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      boxes.forEach((box) => {
+      boxesRef.current.forEach((box) => {
         // Draw box border
         ctx.strokeStyle = "rgba(26, 26, 26, 0.3)";
         ctx.lineWidth = 1;
@@ -110,37 +120,43 @@ export function BackgroundRippleEffect() {
 
         // Draw ripple effect
         if (box.rippleOpacity > 0 && box.rippleX >= 0 && box.rippleY >= 0) {
-          const gradient = ctx.createRadialGradient(
-            box.x + box.rippleX,
-            box.y + box.rippleY,
-            0,
-            box.x + box.rippleX,
-            box.y + box.rippleY,
-            box.rippleSize
-          );
-          gradient.addColorStop(0, `rgba(255, 255, 255, ${box.rippleOpacity})`);
-          gradient.addColorStop(0.5, `rgba(255, 255, 255, ${box.rippleOpacity * 0.5})`);
-          gradient.addColorStop(1, "transparent");
+          const maxSize = Math.max(box.width, box.height) * 2;
+          
+          if (box.rippleSize < maxSize) {
+            const gradient = ctx.createRadialGradient(
+              box.x + box.rippleX,
+              box.y + box.rippleY,
+              0,
+              box.x + box.rippleX,
+              box.y + box.rippleY,
+              box.rippleSize
+            );
+            gradient.addColorStop(0, `rgba(255, 255, 255, ${box.rippleOpacity})`);
+            gradient.addColorStop(0.4, `rgba(255, 255, 255, ${box.rippleOpacity * 0.6})`);
+            gradient.addColorStop(0.7, `rgba(255, 255, 255, ${box.rippleOpacity * 0.3})`);
+            gradient.addColorStop(1, "transparent");
 
-          ctx.fillStyle = gradient;
-          ctx.beginPath();
-          ctx.arc(
-            box.x + box.rippleX,
-            box.y + box.rippleY,
-            box.rippleSize,
-            0,
-            Math.PI * 2
-          );
-          ctx.fill();
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(
+              box.x + box.rippleX,
+              box.y + box.rippleY,
+              box.rippleSize,
+              0,
+              Math.PI * 2
+            );
+            ctx.fill();
 
-          // Animate ripple
-          box.rippleSize += 8;
-          box.rippleOpacity -= 0.02;
+            // Animate ripple
+            box.rippleSize += 10;
+            box.rippleOpacity -= 0.03;
 
-          if (box.rippleOpacity <= 0) {
-            box.rippleSize = 0;
-            box.rippleX = -1;
-            box.rippleY = -1;
+            if (box.rippleOpacity <= 0 || box.rippleSize >= maxSize) {
+              box.rippleSize = 0;
+              box.rippleOpacity = 0;
+              box.rippleX = -1;
+              box.rippleY = -1;
+            }
           }
         }
       });
@@ -154,7 +170,9 @@ export function BackgroundRippleEffect() {
       window.removeEventListener("resize", resizeCanvas);
       container.removeEventListener("mousemove", handleMouseMove);
       container.removeEventListener("click", handleClick);
-      cancelAnimationFrame(animationFrameId);
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
     };
   }, []);
 
