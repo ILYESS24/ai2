@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useChat } from '@ai-sdk/react';
 import ChatInput from '@/components/chat-input';
 import Link from 'next/link';
+import { DottedGlowBackground } from '@/components/ui/dotted-glow-background';
 
 export default function Home() {
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
@@ -353,6 +354,21 @@ export default function Home() {
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col relative">
+        {/* Dotted Glow Background */}
+        <DottedGlowBackground
+          className="pointer-events-none"
+          opacity={1}
+          gap={10}
+          radius={1.6}
+          colorLightVar="--color-neutral-500"
+          glowColorLightVar="--color-neutral-600"
+          colorDarkVar="--color-neutral-500"
+          glowColorDarkVar="--color-white"
+          backgroundOpacity={0}
+          speedMin={0.3}
+          speedMax={1.6}
+          speedScale={1}
+        />
 
         {/* Messages Area (when there are messages) */}
         {messages.length > 0 ? (
