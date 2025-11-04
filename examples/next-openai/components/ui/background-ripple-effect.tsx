@@ -15,6 +15,10 @@ export const BackgroundRippleEffect = ({
     row: number;
     col: number;
   } | null>(null);
+  const [hoveredCell, setHoveredCell] = useState<{
+    row: number;
+    col: number;
+  } | null>(null);
   const [rippleKey, setRippleKey] = useState(0);
   const ref = useRef<any>(null);
 
@@ -36,9 +40,13 @@ export const BackgroundRippleEffect = ({
           cellSize={cellSize}
           borderColor="rgba(26,26,26,0.3)"
           fillColor="transparent"
-          clickedCell={clickedCell}
+          clickedCell={clickedCell || hoveredCell}
           onCellClick={(row, col) => {
             setClickedCell({ row, col });
+            setRippleKey((k) => k + 1);
+          }}
+          onCellHover={(row, col) => {
+            setHoveredCell({ row, col });
             setRippleKey((k) => k + 1);
           }}
           interactive
@@ -57,6 +65,7 @@ type DivGridProps = {
   fillColor: string;
   clickedCell: { row: number; col: number } | null;
   onCellClick?: (row: number, col: number) => void;
+  onCellHover?: (row: number, col: number) => void;
   interactive?: boolean;
 };
 
@@ -74,6 +83,7 @@ const DivGrid = ({
   fillColor = "rgba(14,165,233,0.3)",
   clickedCell = null,
   onCellClick = () => {},
+  onCellHover = () => {},
   interactive = true,
 }: DivGridProps) => {
   const cells = useMemo(
@@ -122,6 +132,9 @@ const DivGrid = ({
               borderColor: borderColor,
               ...style,
             }}
+            onMouseEnter={
+              interactive ? () => onCellHover?.(rowIdx, colIdx) : undefined
+            }
             onClick={
               interactive ? () => onCellClick?.(rowIdx, colIdx) : undefined
             }
