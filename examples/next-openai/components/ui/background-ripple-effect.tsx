@@ -14,6 +14,7 @@ export function BackgroundRippleEffect() {
     rippleSize: number;
     rippleOpacity: number;
   }>>([]);
+  const animationFrameRef = useRef<number | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -22,8 +23,6 @@ export function BackgroundRippleEffect() {
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-
-    let animationFrameId: number;
 
     const resizeCanvas = () => {
       const rect = container.getBoundingClientRect();
@@ -120,7 +119,7 @@ export function BackgroundRippleEffect() {
 
         // Draw ripple effect
         if (box.rippleOpacity > 0 && box.rippleX >= 0 && box.rippleY >= 0) {
-          const maxSize = Math.max(box.width, box.height) * 2;
+          const maxSize = Math.max(box.width, box.height) * 2.5;
           
           if (box.rippleSize < maxSize) {
             const gradient = ctx.createRadialGradient(
@@ -132,8 +131,8 @@ export function BackgroundRippleEffect() {
               box.rippleSize
             );
             gradient.addColorStop(0, `rgba(255, 255, 255, ${box.rippleOpacity})`);
-            gradient.addColorStop(0.4, `rgba(255, 255, 255, ${box.rippleOpacity * 0.6})`);
-            gradient.addColorStop(0.7, `rgba(255, 255, 255, ${box.rippleOpacity * 0.3})`);
+            gradient.addColorStop(0.3, `rgba(255, 255, 255, ${box.rippleOpacity * 0.7})`);
+            gradient.addColorStop(0.6, `rgba(255, 255, 255, ${box.rippleOpacity * 0.4})`);
             gradient.addColorStop(1, "transparent");
 
             ctx.fillStyle = gradient;
@@ -148,8 +147,8 @@ export function BackgroundRippleEffect() {
             ctx.fill();
 
             // Animate ripple
-            box.rippleSize += 10;
-            box.rippleOpacity -= 0.03;
+            box.rippleSize += 12;
+            box.rippleOpacity -= 0.04;
 
             if (box.rippleOpacity <= 0 || box.rippleSize >= maxSize) {
               box.rippleSize = 0;
@@ -157,21 +156,28 @@ export function BackgroundRippleEffect() {
               box.rippleX = -1;
               box.rippleY = -1;
             }
+          } else {
+            // Reset if max size reached
+            box.rippleSize = 0;
+            box.rippleOpacity = 0;
+            box.rippleX = -1;
+            box.rippleY = -1;
           }
         }
       });
 
-      animationFrameId = requestAnimationFrame(animate);
+      animationFrameRef.current = requestAnimationFrame(animate);
     };
 
+    // Start animation
     animate();
 
     return () => {
       window.removeEventListener("resize", resizeCanvas);
       container.removeEventListener("mousemove", handleMouseMove);
       container.removeEventListener("click", handleClick);
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
       }
     };
   }, []);
