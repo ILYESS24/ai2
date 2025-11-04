@@ -63,73 +63,55 @@ export function DottedGlowBackground({
     const dotColor = 'rgba(255, 255, 255, 0.15)';
     const glowColor = 'rgba(255, 255, 255, 0.3)';
 
-    // Create dots array
+    // Create dots array (static)
     const dots: Array<{
       x: number;
       y: number;
-      speed: number;
       radius: number;
     }> = [];
 
     const cols = Math.ceil(canvas.width / gap);
     const rows = Math.ceil(canvas.height / gap);
 
-    // Initialize dots
+    // Initialize dots (static positions)
     for (let i = 0; i < cols * rows; i++) {
       const col = i % cols;
       const row = Math.floor(i / cols);
-      const speed = (Math.random() * (speedMax - speedMin) + speedMin) * speedScale;
       
       dots.push({
         x: col * gap + gap / 2,
         y: row * gap + gap / 2,
-        speed,
         radius: radius * (0.5 + Math.random() * 0.5),
       });
     }
 
-    let animationFrameId: number;
-    let time = 0;
+    // Draw dots once (static)
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      time += 0.01;
+    dots.forEach((dot) => {
+      const x = dot.x;
+      const y = dot.y;
 
-      dots.forEach((dot) => {
-        // Animate position slightly
-        const offsetX = Math.sin(time * dot.speed + dot.x * 0.01) * 2;
-        const offsetY = Math.cos(time * dot.speed + dot.y * 0.01) * 2;
+      // Draw glow
+      const gradient = ctx.createRadialGradient(x, y, 0, x, y, dot.radius * 3);
+      gradient.addColorStop(0, glowColor);
+      gradient.addColorStop(0.5, dotColor);
+      gradient.addColorStop(1, 'transparent');
 
-        const x = dot.x + offsetX;
-        const y = dot.y + offsetY;
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(x, y, dot.radius * 3, 0, Math.PI * 2);
+      ctx.fill();
 
-        // Draw glow
-        const gradient = ctx.createRadialGradient(x, y, 0, x, y, dot.radius * 3);
-        gradient.addColorStop(0, glowColor);
-        gradient.addColorStop(0.5, dotColor);
-        gradient.addColorStop(1, 'transparent');
-
-        ctx.fillStyle = gradient;
-        ctx.beginPath();
-        ctx.arc(x, y, dot.radius * 3, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Draw dot
-        ctx.fillStyle = dotColor;
-        ctx.beginPath();
-        ctx.arc(x, y, dot.radius, 0, Math.PI * 2);
-        ctx.fill();
-      });
-
-      animationFrameId = requestAnimationFrame(animate);
-    };
-
-    animate();
+      // Draw dot
+      ctx.fillStyle = dotColor;
+      ctx.beginPath();
+      ctx.arc(x, y, dot.radius, 0, Math.PI * 2);
+      ctx.fill();
+    });
 
     return () => {
       window.removeEventListener('resize', resizeCanvas);
-      cancelAnimationFrame(animationFrameId);
     };
   }, [gap, radius, opacity, speedMin, speedMax, speedScale]);
 
