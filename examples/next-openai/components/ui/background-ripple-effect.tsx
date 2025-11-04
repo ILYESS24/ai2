@@ -79,8 +79,8 @@ export function BackgroundRippleEffect() {
         ) {
           box.rippleX = mouseX - box.x;
           box.rippleY = mouseY - box.y;
-          box.rippleSize = 0;
-          box.rippleOpacity = 0.8;
+          box.rippleSize = 5;
+          box.rippleOpacity = 1.0;
         }
       });
     };
@@ -99,8 +99,8 @@ export function BackgroundRippleEffect() {
         ) {
           box.rippleX = box.width / 2;
           box.rippleY = box.height / 2;
-          box.rippleSize = 0;
-          box.rippleOpacity = 0.8;
+          box.rippleSize = 5;
+          box.rippleOpacity = 1.0;
         }
       });
     };
@@ -109,19 +109,22 @@ export function BackgroundRippleEffect() {
     container.addEventListener("click", handleClick);
 
     const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      // Clear canvas with black background
+      ctx.fillStyle = "#000000";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       boxesRef.current.forEach((box) => {
-        // Draw box border
-        ctx.strokeStyle = "rgba(26, 26, 26, 0.3)";
+        // Draw box border - WHITE for visibility
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.2)";
         ctx.lineWidth = 1;
         ctx.strokeRect(box.x, box.y, box.width, box.height);
 
-        // Draw ripple effect
+        // Draw ripple effect - VERY VISIBLE
         if (box.rippleOpacity > 0 && box.rippleX >= 0 && box.rippleY >= 0) {
-          const maxSize = Math.max(box.width, box.height) * 2.5;
+          const maxSize = Math.max(box.width, box.height) * 3;
           
-          if (box.rippleSize < maxSize) {
+          if (box.rippleSize < maxSize && box.rippleOpacity > 0) {
+            // Create very visible gradient
             const gradient = ctx.createRadialGradient(
               box.x + box.rippleX,
               box.y + box.rippleY,
@@ -131,8 +134,9 @@ export function BackgroundRippleEffect() {
               box.rippleSize
             );
             gradient.addColorStop(0, `rgba(255, 255, 255, ${box.rippleOpacity})`);
-            gradient.addColorStop(0.3, `rgba(255, 255, 255, ${box.rippleOpacity * 0.7})`);
-            gradient.addColorStop(0.6, `rgba(255, 255, 255, ${box.rippleOpacity * 0.4})`);
+            gradient.addColorStop(0.2, `rgba(255, 255, 255, ${box.rippleOpacity * 0.8})`);
+            gradient.addColorStop(0.5, `rgba(255, 255, 255, ${box.rippleOpacity * 0.5})`);
+            gradient.addColorStop(0.8, `rgba(255, 255, 255, ${box.rippleOpacity * 0.2})`);
             gradient.addColorStop(1, "transparent");
 
             ctx.fillStyle = gradient;
@@ -146,9 +150,9 @@ export function BackgroundRippleEffect() {
             );
             ctx.fill();
 
-            // Animate ripple
-            box.rippleSize += 12;
-            box.rippleOpacity -= 0.04;
+            // Animate ripple - faster and more visible
+            box.rippleSize += 15;
+            box.rippleOpacity -= 0.05;
 
             if (box.rippleOpacity <= 0 || box.rippleSize >= maxSize) {
               box.rippleSize = 0;
@@ -169,7 +173,7 @@ export function BackgroundRippleEffect() {
       animationFrameRef.current = requestAnimationFrame(animate);
     };
 
-    // Start animation
+    // Start animation immediately
     animate();
 
     return () => {
